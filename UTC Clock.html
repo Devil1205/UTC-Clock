@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <style>
+      .custom{
+      overflow-y: scroll;
+      height: 292px;
+    }
+    .customdrop{
+      float: right;
+      right: 12vw;
+    }
+    .customjumbo{
+      min-height: 500px;
+    }
+    </style>
+
+    <title>World Clock</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">World Clock</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+      </div>
+    </nav>
+
+
+    <div class="container my-4">
+      <div class="jumbotron customjumbo">
+        <div class="text-center"><h1>UTC Clock</h1></div><br>
+        <div class="dropdown my-4 customdrop">
+          <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+            Time Zones
+          </button>
+          <div class="dropdown-menu custom">
+            <a class="dropdown-item zones" href="#">(GMT-12:00) International Date Line West</a>
+            <a class="dropdown-item zones" href="#">(GMT-11:00) Midway Island, Samoa</a>
+            <a class="dropdown-item zones" href="#">(GMT-10:00) Hawaii</a>
+            <a class="dropdown-item zones" href="#">(GMT-09:00) Alaska</a>
+            <a class="dropdown-item zones" href="#">(GMT-08:00) Pacific Time (US and Canada)</a>
+            <a class="dropdown-item zones" href="#">(GMT-07:00) Mountain Time (US and Canada)</a>
+            <a class="dropdown-item zones" href="#">(GMT-06:00) Central Time (US and Canada)</a>
+            <a class="dropdown-item zones" href="#">(GMT-05:00) Eastern Time (US and Canada)</a>
+            <a class="dropdown-item zones" href="#">(GMT-04:00) Atlantic Time (Canada)</a>
+            <a class="dropdown-item zones" href="#">(GMT-03:30) Newfoundland and Labrador</a>
+            <a class="dropdown-item zones" href="#">(GMT-03:00) Greenland</a>
+            <a class="dropdown-item zones" href="#">(GMT-02:00) Mid-Atlantic</a>
+            <a class="dropdown-item zones" href="#">(GMT-01:00) Cape Verde Islands</a>
+            <a class="dropdown-item zones" href="#">(GMT+00:00) Greenwich Mean Time: Dublin, Edinburgh, Lisbon, London</a>
+            <a class="dropdown-item zones" href="#">(GMT+01:00) Brussels, Copenhagen, Madrid, Paris</a>
+            <a class="dropdown-item zones" href="#">(GMT+02:00) Helsinki, Kiev, Riga, Sofia, Tallinn, Vilnius</a>
+            <a class="dropdown-item zones" href="#">(GMT+03:00) Moscow, St. Petersburg, Volgograd</a>
+            <a class="dropdown-item zones" href="#">(GMT+03:30) Tehran</a>
+            <a class="dropdown-item zones" href="#">(GMT+04:00) Abu Dhabi, Muscat</a>
+            <a class="dropdown-item zones" href="#">(GMT+04:30) Kabul</a>
+            <a class="dropdown-item zones" href="#">(GMT+05:00) Islamabad, Karachi, Tashkent</a>
+            <a class="dropdown-item zones" href="#">(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi</a>
+            <a class="dropdown-item zones" href="#">(GMT+05:45) Kathmandu</a>
+            <a class="dropdown-item zones" href="#">(GMT+06:00) Astana, Dhaka</a>
+            <a class="dropdown-item zones" href="#">(GMT+06:30) Yangon Rangoon</a>
+            <a class="dropdown-item zones" href="#">(GMT+07:00) Bangkok, Hanoi, Jakarta</a>
+            <a class="dropdown-item zones" href="#">(GMT+08:00) Beijing, Chongqing, Hong Kong SAR, Urumqi</a>
+            <a class="dropdown-item zones" href="#">(GMT+09:00) Osaka, Sapporo, Tokyo</a>
+            <a class="dropdown-item zones" href="#">(GMT+09:30) Adelaide</a>
+            <a class="dropdown-item zones" href="#">(GMT+10:00) Canberra, Melbourne, Sydney</a>
+            <a class="dropdown-item zones" href="#">(GMT+11:00) Magadan, Solomon Islands, New Caledonia</a>
+            <a class="dropdown-item zones" href="#">(GMT+12:00) Auckland, Wellington</a>
+          </div>
+        </div>
+        <h1 class="display-4">Current Time is: <span id="time"></span></h1>
+        <p class="lead"></p>
+        <hr class="my-4">
+        <p id="timedesc">Click below to change to 12 Hour Time System</p>
+        <a class="btn btn-primary btn-lg" id="hoursystem" href="#" role="button">12 Hour Time</a>
+        
+      </div>
+    </div>
+
+    <script>
+      let clock=new Date();;
+      let count=true;
+      let hr=document.getElementById('hoursystem');
+      let time = document.getElementById('time');
+      let timedesc = document.getElementById('timedesc');
+      let lead = document.getElementsByClassName('lead');
+      let oset=clock.getTimezoneOffset()*-1;
+      let ind;
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      let arrayoset=[-720,-660,-600,-540,-480,-420,-360,-300,-240,-210,-180,-120,-60,0,60,120,180,210,240,270,300,330,345,360,390,420,480,540,570,600,660,720];
+      let zones=document.querySelectorAll(".zones");
+      zones.forEach((x,index) => {
+        if(arrayoset[index]==oset)
+        {
+          ind=index;
+        }
+      });
+      zones.forEach((x,index) => {
+        x.addEventListener("click",()=>{
+          console.log(`CLICKED ${index}`);
+          ind=index;
+          oset=arrayoset[index];
+        });
+      });
+      fn = ()=>{
+        clock=new Date();
+        lead[0].innerHTML=(zones[ind].innerHTML);
+        let hr=clock.getUTCHours()+~~(oset/60);
+        let min=clock.getUTCMinutes()+oset%60;;
+        if(min>=60)
+        {
+          clock.setUTCHours(hr+1);
+          hr=clock.getUTCHours();
+          min=min-60;
+        }
+        else if(min<0)
+        {
+          clock.setUTCHours(hr-1);
+          hr=clock.getUTCHours();
+          min=min+60;
+        }
+        if(oset>0 && hr>=24)
+        {
+          clock.setUTCDate(clock.getUTCDate()+1);
+          hr=hr-24;
+        }
+        else if(oset<=0 && hr<0)
+        {
+          clock.setUTCDate(clock.getUTCDate()-1);
+          hr=24+hr;
+        }
+        clock.setDate(clock.getUTCDate());
+        if(count==true)
+        {
+        time.innerHTML=("0"+hr).slice(-2)+":"+("0"+min).slice(-2)+":"+("0"+clock.getUTCSeconds()).slice(-2) + "<br> on "+clock.toLocaleDateString(undefined,options);
+        }
+      else
+        {
+          let AMPM;
+          if(hr==24 || hr<12)
+          AMPM="AM";
+          else 
+          AMPM="PM";
+          if(hr==0)
+          time.innerHTML=("0"+12).slice(-2)+":"+("0"+min).slice(-2)+":"+("0"+clock.getUTCSeconds()).slice(-2) + AMPM + "<br> on "+clock.toLocaleDateString(undefined,options);
+          else
+          time.innerHTML=("0"+hr%12).slice(-2)+":"+("0"+min).slice(-2)+":"+("0"+clock.getUTCSeconds()).slice(-2) + AMPM + "<br> on "+clock.toLocaleDateString(undefined,options);
+        }
+      }
+      setInterval(fn,100);
+      hr.addEventListener("click",function(){
+        count=!count;
+        if(count==0)
+        {
+          hr.innerHTML = "24 Hour Time";
+          timedesc.innerHTML = "Click below to change to 24 Hour Time System"
+        }
+        else
+        {
+          hr.innerHTML = "12 Hour Time";
+          timedesc.innerHTML = "Click below to change to 12 Hour Time System";
+        }
+      });
+      
+      
+    </script>
+    
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
